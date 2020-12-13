@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+function getDate()
+{   
+var date = new Date();
+var date1 = date.toLocaleString();     
+var div1 = document.getElementById("times");
+div1.innerHTML = date1;
+}
+setInterval("getDate()",1000);
+</script>
+
+<script type="text/javascript">
+    function ClickMenu(diving)
+    {
+        
+        if (document.getElementById(diving).style.display == "none") 
+        {
+            document.getElementById(diving).style.display = 'block';
+        }
+        else
+        {
+            document.getElementById(diving).style.display = 'none';
+        }
+    }
+</script>
+    
+<body>
+    
+    <div id="最后置背景" style="width:1500px;position: absolute;left : 290px;top : 70px;">
+        <style type="text/css">
+            #times
+            {
+            position: absolute;left : -40px;top : 755px;
+            width: 200px;
+            height: 20px;
+            }
+        </style>
+        <div id="times"></div>
+        <div id="最上边横栏" style="background-color: #35BEED;height:32px;width:1400px;border: 1px solid black;position: absolute;left : -45px;top : 18px;border-radius:30px;">
+
+        </div>
+        <div id="最大外框" style="background-color: #439cb979;height:760px;width:1400px;border: 1px solid black;position: absolute;left : -45px;top : 18px;border-radius:15px;"></div>
+        <h3 style="background-color: #ffffff;height:23px;width:23px;position: absolute;left : -40px;top : 3px;">待</h3>
+
+        <div id="menu" style="background-color: #35BEED;height:700px;width:300px; position: absolute;left : 0px;top : 51px;border: 1px solid black;">
+            <div id="E" style="background-color: #ffffff;border: 1px solid black;height:100px;width:300px;">
+            <h2>X</h2>
+            </div>
+            <div id="A" style="background-color: #ffffff;height:50px;width:150px;position: absolute;left : 65px;top : 120px;border: 1px solid black;">
+                <div class='banner2' ><a onclick=ClickMenu('TreeNode0')>分行列表</a></div>
+                <div id='TreeNode0' class='bannermid' style='display:none'>
+                    <div style="background-color: #ffffff;" class='banner3'>需求1</div>
+                    <div style="background-color: #ffffff;" class='banner3'>需求2</div>
+                </div>
+            </div>
+            <div id="B" style="background-color: #ffffff;height:50px;width:150px;position: absolute;left : 65px;top : 200px;border: 1px solid black;">
+                <div class='banner2' ><a onclick=ClickMenu('TreeNode1')>分行列表</a></div>
+                <div id='TreeNode1' class='bannermid' style='display:none'>
+                    <div style="background-color: #ffffff;" class='banner3'> 需求3</div>
+                    <div style="background-color: #ffffff;" class='banner3'> 需求4</div>
+                </div>
+            </div>
+            <div id="C" style="background-color: #ffffff;height:50px;width:150px;position: absolute;left : 65px;top : 280px;border: 1px solid black;">
+                <div class='banner2' ><a onclick=ClickMenu('TreeNode2')>分行列表</a></div>
+                <div id='TreeNode2' class='bannermid' style='display:none'>
+                    <div style="background-color: #ffffff;" class='banner3'> 需求5</div>
+                    <div style="background-color: #ffffff;" class='banner3'> 需求6</div>
+                </div>
+            </div>
+            <div id="D" style="background-color: #ffffff;height:50px;width:150px;position: absolute;left : 65px;top : 360px;border: 1px solid black;">
+                <div class='banner2' ><a onclick=ClickMenu('TreeNode3')>分行列表</a></div>
+                <div id='TreeNode3' class='bannermid' style='display:none'>
+                    <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right' >需求7</a></div>
+                    <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right'>需求8</a></div>
+                </div>           
+                
+                
+        </div>
+        
+        
+        <div id="右边大框" style="background-color:#EEEEEE;height:700px;width:1000px;float:left;position: absolute;left : 300px;top : 0px;border: 1px solid black;">
+            
+              
+                    <div>
+                        
+                        <div class='内容4' style="background-color: #5fb8ec;height:30px;width:1000px;position: absolute;left : 0px;top : -1px;border: 1px solid black;"></div>
+
+                        <div class='内容1' style="background-color: #5fb8ec;height:30px;width:100px;position: absolute;left : 100px;top : -1px;border: 1px solid black;text-align:center;" ><a onclick=ClickMenu('TreeNode4')>菜单</a></div>
+                        <div id='TreeNode4' class='bannermid' style='display:none;height:30px;width:200px;position: absolute;left : 100px;top : 30px;'>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right' >需求9</a></div>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right'>需求10</a></div>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right'>需求9’</a></div>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right'>需求10’</a></div>
+                        </div> 
+                                          
+                        <div class='内容2' style="background-color: #5fb8ec;height:30px;width:100px;position: absolute;left : 200px;top : -1px;border: 1px solid black;text-align:center;"><a onclick=ClickMenu('TreeNode5')>选项</a></div>
+                        <div id='TreeNode5' class='bannermid' style='display:none;height:30px;width:200px;position: absolute;left : 200px;top : 30px;'>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right' >需求11</a></div>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right'>需求12</a></div>
+                        </div> 
+                            
+                        <div class='内容3' style="background-color: #5fb8ec;height:30px;width:100px;position: absolute;left : 300px;top : -1px;border: 1px solid black;text-align:center;"><a onclick=ClickMenu('TreeNode6')>工具</a></div>
+                        <div id='TreeNode6' class='bannermid' style='display:none;height:30px;width:200px;position: absolute;left : 300px;top : 30px;'>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right' >需求13</a></div>
+                        <div style="background-color: #ffffff;" class='banner3'><img src='image\资源 6.svg' height='20' width='36' border='0' alt='' /> <a href='image\资源 7.svg' target='Right'>需求14</a></div>
+                        </div> 
+
+                        
+                    </div>
+                    
+                           
+        </div>
+                    
+                
+                
+                
+                
+                <div id="content" style="background-color:#EEEEEE;height:30px;width:1000px;float:left;position: absolute;left : 300px;top : 331px;border: 1px solid black;">
+                        内容4：向右为图标</div>
+                        <div id="content" style="background-color:#EEEEEE;height:320px;width:980px;float:left;position: absolute;left : 310px;top : 371px;border: 1px solid black;">
+                            内容5
+                            <iframe src="image\资源 2.svg" width="30" height="20"></iframe>
+           
+
+
+
+
+
+
+
+
+        </div>
+        
+        
+    </div>
+</body>
+</html>
