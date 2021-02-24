@@ -8,6 +8,7 @@ import java.net.*;
 
 /**
  * File Receiver used for receiving file stream.
+ * 接收文件流
  *
  * @author Haozhe Xie
  */
@@ -38,15 +39,15 @@ public class FileReceiver {
 			byte[] inputDataBuffer = new byte[BUFFER_SIZE];
 			byte[] outputDataBuffer = ("GET " + checksum).getBytes();
 			DatagramPacket outputPacket = new DatagramPacket(outputDataBuffer,
-					outputDataBuffer.length, InetAddress.getByName(ipAddress), COMMAND_PORT);
-			commandSocket.send(outputPacket);
+					outputDataBuffer.length, InetAddress.getByName(ipAddress), COMMAND_PORT);//打包
+			commandSocket.send(outputPacket);//发送
 
-			DatagramPacket inputPacket = new DatagramPacket(inputDataBuffer, inputDataBuffer.length);
-			commandSocket.receive(inputPacket);
+			DatagramPacket inputPacket = new DatagramPacket(inputDataBuffer, inputDataBuffer.length);//以指定字节数组创建准备接收数据的DatagramPacket对象
+			commandSocket.receive(inputPacket);//接收
 			String command = new String(inputPacket.getData());
 
 			LOGGER.debug("Receive command from peer: " + command);
-			if ( !command.startsWith("ACCEPT") ) {
+			if ( !command.startsWith("ACCEPT") ) {//如果不是以“ACCEPT”开头，抛出异常
 				throw new Exception("The sharer refused to send this file.");
 			}
 
