@@ -25,7 +25,6 @@ public class Client {
 	
 	/**
 	 * Connect to server.
-	 * 连接到服务器
 	 * @param ipAddress the IP address of the server.
 	 * @param nickName  the nick name of the user
 	 * @throws Exception 
@@ -34,7 +33,6 @@ public class Client {
 			throws Exception {
 		this.ipAddress = ipAddress;
 		this.nickName = nickName;
-		//创建流套接字并将其连接到指定主机上的指定端口号。
 		this.socket = new Socket(ipAddress, PORT);
 		this.inputStreamReader = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
@@ -44,8 +42,6 @@ public class Client {
 		outputStreamWriter.println("CONNECT " + nickName);
 		
 		// Receive ACK from server
-		//读取服务端响应
-		//按行读取
 		String ackMessage = inputStreamReader.readLine();
 		if ( ackMessage.equals("ACCEPT") ) {
 			LOGGER.info("Connected to server.");
@@ -57,22 +53,18 @@ public class Client {
 
 	/**
 	 * Get the list of shared files right now from Napster server.
-	 * 马上从Napster服务器获取共享文件列表。
 	 * @return the list of shared files
 	 */
 	public List<SharedFile> getSharedFiles() {
 		// Send LIST command to server for querying shared files
-		//发送LIST命令到服务器查询共享文件
 		outputStreamWriter.println("LIST");
 
 		// Receive response from server
 		List<SharedFile> sharedFiles = new ArrayList<>();
 		try {
-			//按行读取
 			String response = inputStreamReader.readLine();
 
 			if ( !response.equals("ERROR") ) {
-				//将json数据的格式转化为数组格式
 				sharedFiles = JSON.parseArray(response, SharedFile.class);
 			}
 		} catch ( IOException ex ) {
@@ -83,14 +75,11 @@ public class Client {
 
 	/**
 	 * Share a new file to Napster server.
-	 * 共享一个新文件到Napster服务器
 	 * @param sharedFile the file to share
-	 * @return whethe r the share operation is successful
+	 * @return whether the share operation is successful
 	 */
 	public boolean shareNewFile(SharedFile sharedFile) {
 		// Send share command to server
-		//发送共享命令到服务器
-		//toJSON类似toString,转换为JSON格式
 		outputStreamWriter.println("ADD " + JSON.toJSON(sharedFile));
 
 		// Receive response from server
@@ -119,8 +108,6 @@ public class Client {
 			Map<String, String> map = new HashMap();
 			map.put("fileName", fileName);
 			map.put("checksum", checksum);
-			//Collections.unmodifiableMap()方法会返回一个“只读”的map，如果向转化后的map中put数据会报throw new UnsupportedOperationException()错误
-			//防止更改
 			return Collections.unmodifiableMap(map);
 		})).get()));
 
@@ -139,7 +126,6 @@ public class Client {
 
 	/**
 	 * Get the IP of the sharer who share a specific file
-	 * 获取共享特定文件的共享者的IP
 	 * @param checksum the checksum of the file
 	 * @return the IP of the sharer or N/a if the file is not available
 	 */
@@ -162,7 +148,6 @@ public class Client {
 	
 	/**
 	 * Close socket for client.
-	 * 关闭客户端套接字
 	 */
 	public void disconnect() {
 		// Say goodbye to Napster server

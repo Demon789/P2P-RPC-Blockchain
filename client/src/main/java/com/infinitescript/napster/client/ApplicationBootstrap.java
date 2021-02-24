@@ -37,7 +37,8 @@ import javafx.stage.FileChooser;
 @SuppressWarnings("restriction")
 public class ApplicationBootstrap extends Application {
 	/**
-	 * The entrance of the application. JavaFX application still use the main method.
+	 * The entrance of the application. JavaFX application still use the main
+	 * method.
 	 * 
 	 * @param args the arguments passing to the launch method
 	 */
@@ -139,32 +140,30 @@ public class ApplicationBootstrap extends Application {
 		grid.getChildren().add(fileTableView);
 
 		// File Chooser
-		//打开open/save文件的对话框
 		FileChooser fileChooser = new FileChooser();
 
 		// Initialize UI
-		//初始化控件与对话框，是否连接时控件与对话框的呈现
 		setupUiComponentAvailability(serverIpTextField, nickNameTextField, connectServerButton, 
 				shareFileButton, unshareFileButton, getSharedFilesButton, receiveFileButton, 
 				fileTableView, isConnected);
 
-		// Setup Events Handlers  设置事件处理程序
+		// Setup Events Handlers
 		connectServerButton.setOnAction((ActionEvent e) -> {
 			connectServerButton.setDisable(true);
 
-			if (!isConnected) {//连接失败，显示默认文字
+			if (!isConnected) {
 				String ipAddress = serverIpTextField.getText();
 				String nickName = nickNameTextField.getText();
 
 				try {
-					fileServer.accept();//接收来自客户端的消息
-					client.connect(ipAddress, nickName);//连接到服务器
-					fileTableView.setItems(getSharedFiles());//呈现文件分享表
+					fileServer.accept();
+					client.connect(ipAddress, nickName);
+					fileTableView.setItems(getSharedFiles());
 
 					isConnected = true;
 				} catch (Exception ex) {
 					LOGGER.catching(ex);
-                    //弹窗
+
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Connection Refused");
 					alert.setHeaderText("Failed to connect to Napster server.");
@@ -182,15 +181,12 @@ public class ApplicationBootstrap extends Application {
 			connectServerButton.setDisable(false);
 		});
 		shareFileButton.setOnAction((ActionEvent e) -> {
-			//showOpenDialog()显示一个新文件打开的对话框,返回值指定用户选择的文件，如果没有选择，则返回null
-			//文件获取，文件名、文件路径、分享者昵称、校验和
 			File file = fileChooser.showOpenDialog(primaryStage);
 			if ( file != null ) {
 				try {
 					String fileName = file.getName();
 					String filePath = file.getAbsolutePath();
 					String sharer = nickNameTextField.getText();
-					//通过hash得到checksum
 					String checksum = Files.hash(file, Hashing.md5()).toString();
 					long size = file.length();
 					
@@ -198,8 +194,8 @@ public class ApplicationBootstrap extends Application {
 					boolean isFileShared = client.shareNewFile(sharedFile);
 
 					if ( isFileShared ) {
-						fileServer.shareNewFile(checksum, filePath);//将新文件注册到文件服务器上以便共享
-						fileTableView.setItems(getSharedFiles());//共享文件列表实时更新到TableView
+						fileServer.shareNewFile(checksum, filePath);
+						fileTableView.setItems(getSharedFiles());
 						
 						LOGGER.info("File shared: " + sharedFile);
 					} else {
@@ -207,19 +203,16 @@ public class ApplicationBootstrap extends Application {
 					}
 				} catch (Exception ex) {
 					LOGGER.catching(ex);
-					//文件共享失败弹窗
+					
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Share Failed");
 					alert.setHeaderText("Failed to share a file to Napster server.");
 					alert.setContentText("Error message: " + ex.getMessage());
-					//显示对话框并等待用户响应
 					alert.showAndWait();
 				}
 			}
 		});
 		unshareFileButton.setOnAction((ActionEvent e) -> {
-			//getSelectedItem返回当前选中的对象
-			//选中分享的文件
 			SharedFile selectedFile = fileTableView.getSelectionModel().getSelectedItem();
 
 			String fileName = selectedFile.getFileName();
@@ -227,12 +220,12 @@ public class ApplicationBootstrap extends Application {
 			
 			if ( client.unshareFile(fileName, checksum) ) {
 				fileServer.unshareFile(checksum);
-				fileTableView.setItems(getSharedFiles());//向表中导入文件列表
+				fileTableView.setItems(getSharedFiles());
 
 				LOGGER.info("File unshared: " + selectedFile);
 			} else {
 				LOGGER.error("Failed to unshare a file, because you have no right to unshare this file.");
-                //取消分享失败弹窗
+
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Share Failed");
 				alert.setHeaderText("Failed to unshare a file from Napster server.");
@@ -246,15 +239,14 @@ public class ApplicationBootstrap extends Application {
 		receiveFileButton.setOnAction((ActionEvent e) -> {
 			receiveFileButton.setText("Please wait ...");
 			receiveFileButton.setDisable(true);
-			SharedFile selectedFile = fileTableView.getSelectionModel().getSelectedItem();//选取文件
-			//显示对话框的初始文件名
+			SharedFile selectedFile = fileTableView.getSelectionModel().getSelectedItem();
+
 			fileChooser.setInitialFileName(selectedFile.getFileName());
-			//showSaveDialog方法打开保存对话框窗口，显示给用户
 			File file = fileChooser.showSaveDialog(primaryStage);
 			if ( file != null ) {
 				String checksum = selectedFile.getChecksum();
 
-				try {//判断是否是自己共享的文件
+				try {
 					if ( fileServer.contains(checksum) ) {
 						throw new Exception("The file is shared by yourself.");
 					}
@@ -264,7 +256,6 @@ public class ApplicationBootstrap extends Application {
 						LOGGER.debug("The IP of sharer: " + ipAddress);
 
 						// Receive files and check if checksum is the same
-						//接收文件并检查校验和是否相同
 						fileReceiver.receiveFile(checksum, file.getAbsolutePath(), ipAddress);
 						String receivedChecksum = Files.hash(file, Hashing.md5()).toString();
 
@@ -287,9 +278,8 @@ public class ApplicationBootstrap extends Application {
 				}
 			}
 			receiveFileButton.setText("Receive Selected File");
-			receiveFileButton.setDisable(false);//true则失效
+			receiveFileButton.setDisable(false);
 		});
-		//监听事件
 		fileTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if ( fileTableView.getSelectionModel().getSelectedItem() != null )  {
 				unshareFileButton.setDisable(false);
@@ -299,7 +289,7 @@ public class ApplicationBootstrap extends Application {
 				receiveFileButton.setDisable(true);
 			}
 		});
-		//设置场景
+
 		primaryStage.setScene(scene);
 	}
 
@@ -340,9 +330,7 @@ public class ApplicationBootstrap extends Application {
 
 	/**
 	 * Get shared files right now from server.
-	 * 马上从服务器获取共享文件
 	 * @return a list of shared files
-	 * 返回共享文件列表
 	 */
 	private ObservableList<SharedFile> getSharedFiles() {
 		List<SharedFile> sharedFiles = client.getSharedFiles();
@@ -351,25 +339,21 @@ public class ApplicationBootstrap extends Application {
 
 	/**
 	 * Napster client used for communicating with server.
-	 * Napster客户端用于与服务端通信
 	 */
 	private static final Client client = Client.getInstance();
 	
 	/**
 	 * FileServer used for receiving commands for sending files.
-	 * FileServer用于接收发送文件的命令
 	 */
 	private static final FileServer fileServer = FileServer.getInstance();
 
 	/**
 	 * FileReceiver used for receiving file stream.
-	 * FileReceiver用于接收文件流
 	 */
 	private static final FileReceiver fileReceiver = FileReceiver.getInstance();
 
 	/**
 	 * A variable stores whether the client is connected to server.
-	 * 一个变量存储客户端是否连接到服务器
 	 */
 	private boolean isConnected = false;
 

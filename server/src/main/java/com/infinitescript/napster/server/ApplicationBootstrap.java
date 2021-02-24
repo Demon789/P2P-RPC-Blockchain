@@ -12,12 +12,11 @@ import org.apache.logging.log4j.Logger;
  */
 public class ApplicationBootstrap {
 	public static void main(String[] args) {
-		//服务器的套接字监听器
-		SocketListener listener = SocketListener.getInstance();//创建唯一对象（单例）
+		SocketListener listener = SocketListener.getInstance();
 		
 		try {
 			LOGGER.info("Server is running...");
-			listener.accept();//创建好服务器套接字等待客户请求
+			listener.accept();
 		} catch (IOException e) {
 			LOGGER.catching(e);
 		}
